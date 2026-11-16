@@ -147,5 +147,39 @@ window.verifyOTP = async function() {
 </script>
 
 <!-- Firebase OTP code yahan add hoga -->
+
+<section style="background:white;padding:20px;margin:15px;border-radius:12px">
+  <h2>SellMitra Email Login</h2>
+  <input id="email" type="email" placeholder="Email Address" style="padding:12px;width:90%;margin:8px 0">
+  <input id="password" type="password" placeholder="Password" style="padding:12px;width:90%;margin:8px 0">
+  <button onclick="emailSignup()">Create Account</button>
+  <button onclick="emailLogin()">Login</button>
+  <p id="email-message"></p>
+</section>
+
+<script>
+window.emailSignup = async function() {
+  try {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    await auth.createUserWithEmailAndPassword(email, password);
+    document.getElementById('email-message').innerText = 'Account ban gaya!';
+  } catch(e) {
+    document.getElementById('email-message').innerText = e.message;
+  }
+};
+
+window.emailLogin = async function() {
+  try {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    await auth.signInWithEmailAndPassword(email, password);
+    document.getElementById('email-message').innerText = 'Login safal!';
+  } catch(e) {
+    document.getElementById('email-message').innerText = e.message;
+  }
+};
+</script>
+
 </body>
 </html>
