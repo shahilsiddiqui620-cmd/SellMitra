@@ -181,5 +181,25 @@ window.emailLogin = async function() {
 };
 </script>
 
+<section style="background:white;padding:20px;margin:15px;border-radius:12px">
+  <h2>SellMitra - Product Upload</h2>
+
+  <input id="productName" placeholder="Product Name" style="width:95%;padding:12px;margin:6px">
+
+  <input id="productPrice" type="number" placeholder="Price in ₹" style="width:95%;padding:12px;margin:6px">
+
+  <textarea id="productDescription" placeholder="Product Description" style="width:95%;padding:12px;margin:6px"></textarea>
+
+  <input id="sellerMobile" type="tel" placeholder="Mobile Number" style="width:95%;padding:12px;margin:6px">
+
+  <button onclick="uploadProduct()">Upload Product</button>
+  <p id="uploadMessage"></p>
+</section>
+
+<section style="padding:20px">
+  <h2>Available Products</h2>
+  <div id="productList"></div>
+</section>
+
 </body>
 </html>
