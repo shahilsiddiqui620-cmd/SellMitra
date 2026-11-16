@@ -73,5 +73,16 @@ function filterItems(){
  });
 }
 </script>
+
+<section style="background:white;padding:20px;margin:15px;border-radius:12px">
+  <h2>SellMitra Login</h2>
+  <input id="phone" type="tel" placeholder="Mobile Number" />
+  <div id="recaptcha-container"></div>
+  <button onclick="sendOTP()">Send OTP</button>
+  <br><br>
+  <input id="otp" type="text" placeholder="Enter OTP" />
+  <button onclick="verifyOTP()">Verify OTP</button>
+  <p id="login-message"></p>
+</section>
 </body>
 </html>
