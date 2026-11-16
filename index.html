@@ -201,5 +201,82 @@ window.emailLogin = async function() {
   <div id="productList"></div>
 </section>
 
+<script>
+window.uploadProduct = async function() {
+  const name = document.getElementById("productName").value.trim();
+  const price = Number(document.getElementById("productPrice").value);
+  const description = document.getElementById("productDescription").value.trim();
+  const mobile = document.getElementById("sellerMobile").value.trim();
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Pehle Login kijiye!");
+    return;
+  }
+
+  if (!name || !price || price <= 0 || !description || !mobile) {
+    alert("Sabhi details sahi se bhariye!");
+    return;
+  }
+
+  try {
+    await firebase.firestore().collection("products").add({
+      sellerId: user.uid,
+      name: name,
+      price: price,
+      description: description,
+      mobile: mobile,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    document.getElementById("uploadMessage").innerText =
+      "Product successfully upload ho gaya!";
+
+    document.getElementById("productName").value = "";
+    document.getElementById("productPrice").value = "";
+    document.getElementById("productDescription").value = "";
+    document.getElementById("sellerMobile").value = "";
+
+    loadProducts();
+  } catch (error) {
+    document.getElementById("uploadMessage").innerText = error.message;
+  }
+};
+
+window.loadProducts = async function() {
+  const list = document.getElementById("productList");
+
+  try {
+    const snapshot = await firebase.firestore()
+      .collection("products")
+      .orderBy("createdAt", "desc")
+      .get();
+
+    list.innerHTML = "";
+
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      const item = document.createElement("div");
+      item.style.cssText = "background:white;padding:15px;margin:10px 0;border-radius:10px";
+      const heading = document.createElement("h3");
+      heading.textContent = p.name;
+      const price = document.createElement("p");
+      price.textContent = "₹" + p.price;
+      const description = document.createElement("p");
+      description.textContent = p.description;
+      const mobile = document.createElement("p");
+      mobile.textContent = "Mobile: " + p.mobile;
+      item.append(heading, price, description, mobile);
+      list.appendChild(item);
+    });
+  } catch (error) {
+    list.textContent = error.message;
+  }
+};
+
+window.addEventListener("load", loadProducts);
+</script>
+
 </body>
 </html>
