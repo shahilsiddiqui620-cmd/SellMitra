@@ -84,5 +84,68 @@ function filterItems(){
   <button onclick="verifyOTP()">Verify OTP</button>
   <p id="login-message"></p>
 </section>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCcsPuyTFjA8Z_IBWSLNEfQ-Rcy8QON_yU",
+  authDomain: "sellmitra-fe4f1.firebaseapp.com",
+  projectId: "sellmitra-fe4f1",
+  storageBucket: "sellmitra-fe4f1.firebasestorage.app",
+  messagingSenderId: "517458260478",
+  appId: "1:517458260478:web:50af9037d945f2a48210af",
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+let confirmationResult = null;
+
+window.sendOTP = async function() {
+  const phone = document.getElementById('phone').value.trim();
+  const number = phone.startsWith('+') ? phone :
+    (phone.length === 10 ? '+91' + phone : '');
+
+  if (!number) {
+    alert('10 digit mobile number likhiye');
+    return;
+  }
+
+  try {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier =
+        new firebase.auth.RecaptchaVerifier(
+          'recaptcha-container', { size: 'normal' }
+        );
+    }
+    confirmationResult =
+      await auth.signInWithPhoneNumber(number, window.recaptchaVerifier);
+    document.getElementById('login-message').innerText =
+      'OTP bhej diya gaya hai!';
+  } catch (error) {
+    document.getElementById('login-message').innerText = error.message;
+  }
+};
+
+window.verifyOTP = async function() {
+  const otp = document.getElementById('otp').value.trim();
+  if (!confirmationResult) {
+    document.getElementById('login-message').innerText =
+      'Pehle Send OTP dabaiye.';
+    return;
+  }
+  try {
+    await confirmationResult.confirm(otp);
+    document.getElementById('login-message').innerText =
+      'Login safal!';
+  } catch (error) {
+    document.getElementById('login-message').innerText =
+      'OTP galat hai ya expire ho gaya.';
+  }
+};
+</script>
+
+<!-- Firebase OTP code yahan add hoga -->
 </body>
 </html>
