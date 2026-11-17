@@ -163,7 +163,7 @@ window.emailSignup = async function() {
   try {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-    await auth.createUserWithEmailAndPassword(email, password);
+    await window.auth.createUserWithEmailAndPassword(email, password);
     document.getElementById('email-message').innerText = 'Account ban gaya!';
   } catch(e) {
     document.getElementById('email-message').innerText = e.message;
@@ -174,7 +174,7 @@ window.emailLogin = async function() {
   try {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-    await auth.signInWithEmailAndPassword(email, password);
+    await window.auth.signInWithEmailAndPassword(email, password);
     document.getElementById('email-message').innerText = 'Login safal!';
   } catch(e) {
     document.getElementById('email-message').innerText = e.message;
@@ -209,7 +209,7 @@ window.uploadProduct = async function() {
   const description = document.getElementById("productDescription").value.trim();
   const mobile = document.getElementById("sellerMobile").value.trim();
 
-  const user = auth.currentUser;
+  const user = window.auth.currentUser;
 
   if (!user) {
     alert("Pehle Login kijiye!");
