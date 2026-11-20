@@ -183,6 +183,7 @@ window.emailLogin = async function() {
 };
 </script>
 
+
 <section style="background:white;padding:20px;margin:15px;border-radius:12px">
   <h2>SellMitra - Product Upload</h2>
 
@@ -193,6 +194,8 @@ window.emailLogin = async function() {
   <textarea id="productDescription" placeholder="Product Description" style="width:95%;padding:12px;margin:6px"></textarea>
 
   <input id="sellerMobile" type="tel" placeholder="Mobile Number" style="width:95%;padding:12px;margin:6px">
+
+  <input id="productImage" type="file" accept="image/*" style="width:95%;padding:12px;margin:6px">
 
   <button onclick="uploadProduct()">Upload Product</button>
   <p id="uploadMessage"></p>
