@@ -284,21 +284,36 @@ window.loadProducts = async function() {
 
     list.innerHTML = "";
 
-    snapshot.forEach(doc => {
-      const p = doc.data();
-      const item = document.createElement("div");
-      item.style.cssText = "background:white;padding:15px;margin:10px 0;border-radius:10px";
-      const heading = document.createElement("h3");
-      heading.textContent = p.name;
-      const price = document.createElement("p");
-      price.textContent = "₹" + p.price;
-      const description = document.createElement("p");
-      description.textContent = p.description;
-      const mobile = document.createElement("p");
-      mobile.textContent = "Mobile: " + p.mobile;
-      item.append(heading, price, description, mobile);
-      list.appendChild(item);
-    });
+    
+snapshot.forEach(doc => {
+  const p = doc.data();
+
+  const item = document.createElement("div");
+  item.style.cssText = "background:white;padding:15px;margin:10px 0;border-radius:10px";
+
+  if (p.imageUrl) {
+    const img = document.createElement("img");
+    img.src = p.imageUrl;
+    img.alt = p.name || "Product image";
+    img.style.cssText = "width:100%;max-height:220px;object-fit:contain;border-radius:8px";
+    item.appendChild(img);
+  }
+
+  const heading = document.createElement("h3");
+  heading.textContent = p.name;
+
+  const price = document.createElement("p");
+  price.textContent = "₹" + p.price;
+
+  const description = document.createElement("p");
+  description.textContent = p.description;
+
+  const mobile = document.createElement("p");
+  mobile.textContent = "Mobile: " + p.mobile;
+
+  item.append(heading, price, description, mobile);
+  list.appendChild(item);
+});
   } catch (error) {
     list.textContent = error.message;
   }
